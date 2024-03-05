@@ -130,3 +130,4 @@ C:\Users\User\Desktop\advertising portal\api\api\bin\Debug\net8.0\runtimes\win\l
 C:\Users\User\Desktop\advertising portal\api\api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Security.Cryptography.ProtectedData.dll
 C:\Users\User\Desktop\advertising portal\api\api\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Windows.Extensions.dll
 C:\Users\User\Desktop\advertising portal\api\api\bin\Debug\net8.0\BCrypt.Net-Next.dll
+C:\Users\User\Desktop\advertising portal\api\api\obj\Debug\net8.0\api.sourcelink.json

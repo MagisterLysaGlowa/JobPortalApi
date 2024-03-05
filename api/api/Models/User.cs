@@ -14,5 +14,11 @@ namespace api.Models
         public string? AvatarSource { get; set; }
         public string? Domicile { get; set; }
         public string? Access { get; set; }
+        public List<UserEducation> UserEducations { get; } = [];
+        public List<UserExperience> UserExperiences { get; } = [];
+        public List<UserCourse> UserCourses { get; } = [];
+        public List<UserAbility> UserAbilities { get; } = [];
+        public List<UserLanguage> UserLanguages { get; } = [];
+        public List<UserLink> UserLinks { get; } = [];
     }
 }
