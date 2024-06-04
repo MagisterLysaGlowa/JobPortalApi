@@ -11,6 +11,13 @@ namespace api.Repositories
         {
             _context = context;
         }
+
+        public List<Ability> GetAbilitiesForUser(int userId)
+        {
+            var abilities = _context.UserAbilities.Where(ua => ua.UsersId == userId).Select(ua => ua.Ability).ToList();
+            return abilities;
+        }
+
         public Ability Insert(int userId, Ability ability)
         {
             _context.Abilities.Add(ability);

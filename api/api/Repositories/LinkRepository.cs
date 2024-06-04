@@ -11,6 +11,13 @@ namespace api.Repositories
         {
             _context = context;
         }
+
+        public object? GetLinksForUser(int userId)
+        {
+            var links = _context.UserLinks.Where(ua => ua.UsersId == userId).Select(uL => uL.Link).ToList();
+            return links;
+        }
+
         public Link Insert(int userId, Link link)
         {
             _context.Links.Add(link);

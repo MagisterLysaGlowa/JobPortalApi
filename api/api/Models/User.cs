@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using JobPortal.Api.Models;
+using System.Text.Json.Serialization;
 
 namespace api.Models
 {
@@ -20,5 +21,8 @@ namespace api.Models
         public List<UserAbility> UserAbilities { get; } = [];
         public List<UserLanguage> UserLanguages { get; } = [];
         public List<UserLink> UserLinks { get; } = [];
+        public List<UserJobOfert> UserJobOferts { get; set; } = new();
+        public List<UserJobOfertApplication> UserJobOfertsApplications { get; set; } = new();
+        public List<UserJobOfertFavourite> UserJobOfertsFavourites { get; set; } = new();
     }
 }

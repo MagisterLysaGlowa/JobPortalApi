@@ -11,6 +11,19 @@ namespace api.Repositories
         {
             _context = context;
         }
+
+        public List<Experience> GetAll()
+        {
+            var list = _context.Experiences.ToList();
+            return list;
+        }
+
+        public List<Experience> GetExperiencesForUser(int userId)
+        {
+            var experiences = _context.UserExperiences.Where(ue => ue.UsersId == userId).Select(e => e.Experience).ToList();
+            return experiences;
+        }
+
         public Experience Insert(int userId, Experience experience)
         {
             _context.Experiences.Add(experience);

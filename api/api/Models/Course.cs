@@ -1,4 +1,6 @@
-﻿namespace api.Models
+﻿using System.Text.Json.Serialization;
+
+namespace api.Models
 {
     public class Course
     {
@@ -7,6 +9,6 @@
         public string? CourseOrganizer { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public List<UserCourse> UserCourses { get; } = [];
+        [JsonIgnore] public List<UserCourse> UserCourses { get; } = [];
     }
 }

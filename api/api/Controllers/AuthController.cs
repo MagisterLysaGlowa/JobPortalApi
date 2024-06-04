@@ -92,7 +92,7 @@ namespace api.Controllers
             }
             catch (Exception)
             {
-                return Unauthorized();
+                return Ok(null);
             }
         }
 

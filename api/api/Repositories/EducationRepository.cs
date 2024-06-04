@@ -12,6 +12,19 @@ namespace api.Repositories
         {
             _context = context;
         }
+
+        public List<Education> GetAll()
+        {
+            var list = _context.Educations.ToList();
+            return list;
+        }
+
+        public List<Education> GetEducationsForUser(int userId)
+        {
+            var educations = _context.UserEducations.Where(ue => ue.UsersId == userId).Select(e => e.Education).ToList();
+            return educations;
+        }
+
         public Education Insert(int userId,Education education)
         {
             _context.Educations.Add(education);

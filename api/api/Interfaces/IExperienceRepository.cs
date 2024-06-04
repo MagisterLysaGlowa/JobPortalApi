@@ -7,5 +7,7 @@ namespace api.Interfaces
         Experience Insert(int userId, Experience experience);
         int Remove(int experienceId);
         Experience Update(int experienceId, Experience experience);
+        List<Experience> GetAll();
+        List<Experience> GetExperiencesForUser(int userId);
     }
 }

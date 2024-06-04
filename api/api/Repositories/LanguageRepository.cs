@@ -12,6 +12,13 @@ namespace api.Repositories
         {
             _context = context;
         }
+
+        public object? GetLanguagesForUser(int userId)
+        {
+            var languages = _context.UserLanguages.Where(ua => ua.UsersId == userId).Select(ul => ul.Language).ToList();
+            return languages;
+        }
+
         public Language Insert(int userId, Language language)
         {
             _context.Languages.Add(language);

@@ -20,15 +20,17 @@ namespace api.Controllers
         private readonly IAbilityRepository abilityRepository;
         private readonly ILanguageRepository languageRepository;
         private readonly ILinkRepository linkRepository;
+        private readonly IUserRepository userRepository;
 
-        public UserController(ILogger<UserController> logger, 
-                              IWebHostEnvironment webHostEnvironment, 
-                              IEducationRepository educationRepository, 
+        public UserController(ILogger<UserController> logger,
+                              IWebHostEnvironment webHostEnvironment,
+                              IEducationRepository educationRepository,
                               IExperienceRepository experienceRepository,
                               ICourseRepository courseRepository,
                               IAbilityRepository abilityRepository,
                               ILanguageRepository languageRepository,
-                              ILinkRepository linkRepository
+                              ILinkRepository linkRepository,
+                              IUserRepository userRepository
             )
         {
             this.logger = logger;
@@ -39,6 +41,7 @@ namespace api.Controllers
             this.abilityRepository = abilityRepository;
             this.languageRepository = languageRepository;
             this.linkRepository = linkRepository;
+            this.userRepository = userRepository;
         }
         [HttpGet("GetAvatar/{fileName}")]
         public async Task<IActionResult> GetAvatar(string fileName)
@@ -71,7 +74,7 @@ namespace api.Controllers
                 EndDate = DateTime.Now,
             };
 
-            return Created("success", educationRepository.Insert(dto.UserId,education));
+            return Created("success", educationRepository.Insert(dto.UserId, education));
         }
         [HttpDelete("education/{educationId}")]
         public IActionResult RemoveEducation(int educationId)
@@ -80,7 +83,7 @@ namespace api.Controllers
         }
 
         [HttpPut("education/{educationId}")]
-        public IActionResult UpdateEducation(int educationId,EducationDto dto)
+        public IActionResult UpdateEducation(int educationId, EducationDto dto)
         {
             var education = new Education()
             {
@@ -92,7 +95,19 @@ namespace api.Controllers
                 EndDate = DateTime.Now,
             };
 
-            return Ok(educationRepository.Update(educationId,education));
+            return Ok(educationRepository.Update(educationId, education));
+        }
+
+        [HttpGet("education")]
+        public IActionResult GetEducations()
+        {
+            return Ok(educationRepository.GetAll());
+        }
+
+        [HttpGet("education/{userId}")]
+        public IActionResult GetEducationsForUser(int userId)
+        {
+            return Ok(educationRepository.GetEducationsForUser(userId));
         }
 
         /*USER EXPERIENCE METHODS*/
@@ -133,6 +148,18 @@ namespace api.Controllers
             return Ok(experienceRepository.Update(experienceId, experience));
         }
 
+        [HttpGet("experience")]
+        public IActionResult GetExperiences()
+        {
+            return Ok(experienceRepository.GetAll());
+        }
+
+        [HttpGet("experience/{userId}")]
+        public IActionResult GetExperiencesForUser(int userId)
+        {
+            return Ok(experienceRepository.GetExperiencesForUser(userId));
+        }
+
         [HttpPost("course")]
         public IActionResult InsertCourse(CourseDto dto)
         {
@@ -167,6 +194,24 @@ namespace api.Controllers
             return Ok(courseRepository.Update(courseId, course));
         }
 
+        [HttpGet("course")]
+        public IActionResult GetCourses()
+        {
+            return Ok(courseRepository.GetAll());
+        }
+
+        [HttpGet("course/{userId}")]
+        public IActionResult GetCoursesForUser(int userId)
+        {
+            return Ok(courseRepository.GetCoursesForUser(userId));
+        }
+
+        [HttpGet("ability/{userId}")]
+        public IActionResult GetAbilitiesForUser(int userId)
+        {
+            return Ok(abilityRepository.GetAbilitiesForUser(userId));
+        }
+
         [HttpPost("ability")]
         public IActionResult InsertAbility(AbilityDto dto)
         {
@@ -189,10 +234,22 @@ namespace api.Controllers
         {
             var ability = new Ability()
             {
-                AbilityName= dto.AbilityName,
+                AbilityName = dto.AbilityName,
             };
 
             return Ok(abilityRepository.Update(abilityId, ability));
+        }
+
+        [HttpGet("language/{userId}")]
+        public IActionResult GetLanguagesForUser(int userId)
+        {
+            return Ok(languageRepository.GetLanguagesForUser(userId));
+        }
+
+        [HttpGet("link/{userId}")]
+        public IActionResult GetLinksForUser(int userId)
+        {
+            return Ok(linkRepository.GetLinksForUser(userId));
         }
 
         [HttpPost("language")]
@@ -251,6 +308,107 @@ namespace api.Controllers
             };
 
             return Ok(linkRepository.Update(linkId, link));
+        }
+
+        [HttpPost("application/{jobOfertId}-{userId}")]
+        public IActionResult InsertApplication(int jobOfertId, int userId)
+        {
+            try
+            {
+                userRepository.InsertJobOfertApplication(jobOfertId, userId);
+                return Ok();
+
+            } catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("application/{userId}")]
+        public IActionResult GetApplications(int userId)
+        {
+            try
+            {
+                return Ok(userRepository.GetApplicationsForUser(userId));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("application/{jobOfertId}-{userId}")]
+        public IActionResult DeleteApplication(int jobOfertId, int userId)
+        {
+            try
+            {
+                userRepository.DeleteApplication(jobOfertId, userId);
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpDelete("favourite/{jobOfertId}-{userId}")]
+        public IActionResult DeleteFavourite(int jobOfertId, int userId)
+        {
+            try
+            {
+                userRepository.DeleteFavourite(jobOfertId, userId);
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("favourite/{jobOfertId}-{userId}")]
+        public IActionResult InsertFavourite(int jobOfertId, int userId)
+        {
+            try
+            {
+                userRepository.InsertJobOfertFavourite(jobOfertId, userId);
+                return Ok();
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("favourite/{userId}")]
+        public IActionResult GetFavourites(int userId)
+        {
+            try
+            {
+                return Ok(userRepository.GetFavouritesForUser(userId));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPut("{userId}")]
+        public IActionResult GetFavourites(int userId,UserDto dto)
+        {
+            try
+            {
+                return Ok(userRepository.Update(userId,dto));
+
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
         }
     }
 }

@@ -11,6 +11,19 @@ namespace api.Repositories
         {
             _context = context;
         }
+
+        public List<Course> GetAll()
+        {
+            var list = _context.Courses.ToList();
+            return list;
+        }
+
+        public List<Course> GetCoursesForUser(int userId)
+        {
+            var courses = _context.UserCourses.Where(uc => uc.UsersId == userId).Select(c => c.Course).ToList();
+            return courses;
+        }
+
         public Course Insert(int userId, Course course)
         {
             _context.Courses.Add(course);
